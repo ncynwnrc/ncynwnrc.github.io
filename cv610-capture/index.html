@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15191f">
+  <title>CV610 Capture</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <div class="product-name">CV610 Capture</div>
+      <div class="product-model">Hi3516CV610 / WS73</div>
+    </div>
+    <div class="connection-state" id="connectionState" data-state="offline">
+      <span class="state-dot" aria-hidden="true"></span>
+      <span id="connectionText">未连接</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="connect-view" id="connectView">
+      <div class="device-mark" aria-hidden="true">CV</div>
+      <h1>CV610-Capture</h1>
+      <button class="primary wide" id="connectButton" type="button">连接设备</button>
+      <p class="error-message" id="connectError" role="alert"></p>
+    </section>
+
+    <div class="control-view" id="controlView" hidden>
+      <section class="status-band" aria-label="设备状态">
+        <div class="metric">
+          <span class="metric-label">服务</span>
+          <strong id="serviceState">就绪</strong>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Wi-Fi</span>
+          <strong id="wifiState">未连接</strong>
+        </div>
+        <div class="metric">
+          <span class="metric-label">地址</span>
+          <strong id="ipAddress">--</strong>
+        </div>
+        <div class="metric">
+          <span class="metric-label">已抓拍</span>
+          <strong id="captureTotal">0</strong>
+        </div>
+      </section>
+
+      <section class="workspace capture-workspace">
+        <div class="section-heading">
+          <div>
+            <h2>手动抓拍</h2>
+            <p id="captureSummary">3 张 / 500 ms</p>
+          </div>
+          <button class="secondary compact" id="refreshButton" type="button">刷新</button>
+        </div>
+        <button class="capture-button" id="captureButton" type="button">
+          <span class="capture-ring" aria-hidden="true"></span>
+          <span id="captureButtonText">开始抓拍</span>
+        </button>
+        <div class="operation-status" id="operationStatus" role="status">等待指令</div>
+      </section>
+
+      <section class="workspace">
+        <div class="section-heading">
+          <div>
+            <h2>抓拍参数</h2>
+            <p>下一次任务生效</p>
+          </div>
+        </div>
+        <form id="captureConfigForm" class="form-grid">
+          <label>
+            <span>连续张数</span>
+            <input id="captureCount" type="number" min="1" max="10" step="1" value="3" required>
+          </label>
+          <label>
+            <span>间隔（毫秒）</span>
+            <input id="captureInterval" type="number" min="100" max="60000" step="100" value="500" required>
+          </label>
+          <label class="toggle-row">
+            <span>允许抓拍</span>
+            <input id="captureEnabled" type="checkbox" checked>
+          </label>
+          <button class="secondary form-action" type="submit">应用参数</button>
+        </form>
+      </section>
+
+      <section class="workspace">
+        <div class="section-heading">
+          <div>
+            <h2>Wi-Fi 配网</h2>
+            <p id="wifiDetail">等待配置</p>
+          </div>
+        </div>
+        <form id="wifiForm" class="form-stack" autocomplete="off">
+          <label>
+            <span>SSID</span>
+            <input id="wifiSsid" type="text" maxlength="32" autocomplete="off" required>
+          </label>
+          <label>
+            <span>密码</span>
+            <div class="password-field">
+              <input id="wifiPassword" type="password" minlength="8" maxlength="63" autocomplete="new-password">
+              <button id="passwordToggle" type="button" aria-label="显示密码">显示</button>
+            </div>
+          </label>
+          <button class="primary form-action" id="wifiButton" type="submit">连接 Wi-Fi</button>
+        </form>
+      </section>
+
+      <section class="workspace activity-workspace">
+        <div class="section-heading">
+          <div>
+            <h2>运行记录</h2>
+            <p id="lastFile">暂无抓拍文件</p>
+          </div>
+        </div>
+        <ol class="activity-list" id="activityList" aria-live="polite"></ol>
+      </section>
+
+      <footer class="actions-footer">
+        <a id="rtspLink" class="text-action disabled" href="#">RTSP 预览</a>
+        <button class="text-action" id="disconnectButton" type="button">断开蓝牙</button>
+      </footer>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
